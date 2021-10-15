@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="print_tool">
+  <xacro:macro name="print_tool" params="connected_to:='' ns:='' rpy:='0 0 0' xyz:='0 0 0' ">
+    <xacro:unless value="${connected_to == ''}">
+      <joint name="${ns}_print_tool_joint" type="fixed">
+        <parent link="${connected_to}"/>
+        <child link="${ns}_print_tool"/>
+        <origin xyz="${xyz}" rpy="${rpy}"/>
+      </joint>
+    </xacro:unless>
+    <link name="${ns}_print_tool">
+      <visual>
+        <geometry>
+          <mesh filename="package://franka_description/meshes/visual/print_tool.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://franka_description/meshes/collision/print_tool.stl"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.610"/>
+        <inertia ixx="0.000883318125" ixy="0.0" ixz="0.0" iyy="0.000883318125" iyz="0.0" izz="0.00030263625"/>
+      </inertial>
+    </link>
+    <link name="${ns}_EE"/>
+    <joint name="${ns}_EE_joint" type="fixed">
+      <origin xyz="0.06699 -0.06699 0.2420" rpy="0 0 ${-pi/4}"/> <!-- 0.010124 0.091544 0.241744 -->
+      <parent link="${ns}_link8"/>
+      <child link="${ns}_EE"/>
+      <axis xyz="0 0 0"/>
+    </joint>
+  </xacro:macro>
+</robot>
